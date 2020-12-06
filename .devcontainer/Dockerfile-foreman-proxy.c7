@@ -1,0 +1,36 @@
+FROM centos:7
+
+# Install centos-scl for ruby25
+RUN yum -y update && yum clean all && \
+    yum -y install centos-release-scl && \
+    yum group install -y "Development Tools" 
+
+# Install ruby25
+RUN yum install -y rh-ruby25 rh-ruby25-ruby-devel && \
+    echo '/opt/rh/rh-ruby25/root/usr/lib64' > /etc/ld.so.conf.d/rh-ruby.conf && \
+    ldconfig && \
+    update-alternatives --install /usr/bin/ruby ruby /opt/rh/rh-ruby25/root/bin/ruby 25 --slave /usr/bin/gem gem /opt/rh/rh-ruby25/root/bin/gem
+
+# Install radcli plugin
+RUN gem install bundler rake-compiler rspec && \
+    yum -y install make gcc automake autoconf krb5-devel openldap-devel cyrus-sasl-devel cyrus-sasl-gssapi && \
+    gem install radcli
+
+# Install foreman-proxy
+RUN yum -y install https://yum.theforeman.org/releases/latest/el7/x86_64/foreman-release.rpm && \
+    yum -y install foreman-proxy
+
+# Install realm_ad_plugin
+RUN gem install smart_proxy_realm_ad_plugin
+
+# Copy settings for foreman-proxy and realm-ad plugin
+COPY ./config/settings.yml /usr/share/foreman-proxy/config/settings.yml
+COPY ./config/realm.yml /etc/foreman-proxy/settings.d/realm.yml
+COPY ./config/realm_ad.yml /etc/foreman-proxy/settings.d/realm_ad.yml
+RUN mkdir -p /usr/share/foreman-proxy/bunder.d/
+COPY ./config/Gemfile.local.rb /usr/share/foreman-proxy/bundler.d/Gemfile.local.rb
+
+EXPOSE 3000
+
+# Start smart-proxy
+ENTRYPOINT ["/usr/share/foreman-proxy/bin/smart-proxy"]
