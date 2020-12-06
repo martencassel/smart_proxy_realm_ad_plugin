@@ -28,6 +28,7 @@ COPY ./config/settings.yml /usr/share/foreman-proxy/config/settings.yml
 COPY ./config/realm.yml /etc/foreman-proxy/settings.d/realm.yml
 RUN mkdir -p /usr/share/foreman-proxy/bunder.d/
 COPY ./config/Gemfile.local.rb /usr/share/foreman-proxy/bundler.d/Gemfile.local.rb
+COPY ./config/realm_ad.yml /etc/foreman-proxy/settings.d/realm_ad.yml
 
 EXPOSE 3000
 
