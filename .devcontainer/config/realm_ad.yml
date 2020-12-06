@@ -3,13 +3,13 @@
 :realm: EXAMPLE.COM
 
 # Kerberos pricipal used to authenticate against Active Directory
-:principal: realm-proxy@EXAMPLE.COM
+:principal: Administrator@EXAMPLE.COM
 
 # Path to the keytab used to authenticate against Active Directory
 :keytab_path:  /etc/foreman-proxy/realm_ad.keytab
 
 # FQDN of the Domain Controller
-:domain_controller: dc.example.com
+:domain_controller: dc01.example.com
 
 # Optional: OU where the machine account shall be placed
 #:ou: OU=Linux,OU=Servers,DC=example,DC=com
