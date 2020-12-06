@@ -26,7 +26,6 @@ RUN gem install smart_proxy_realm_ad_plugin
 # Copy settings for foreman-proxy and realm-ad plugin
 COPY ./config/settings.yml /usr/share/foreman-proxy/config/settings.yml
 COPY ./config/realm.yml /etc/foreman-proxy/settings.d/realm.yml
-COPY ./config/realm_ad.yml /etc/foreman-proxy/settings.d/realm_ad.yml
 RUN mkdir -p /usr/share/foreman-proxy/bunder.d/
 COPY ./config/Gemfile.local.rb /usr/share/foreman-proxy/bundler.d/Gemfile.local.rb
 
