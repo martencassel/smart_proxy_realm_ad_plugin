@@ -27,14 +27,14 @@ class InternalApiTest < Test::Unit::TestCase
   end
 
   def setup
-    @server = Proxy::AdRealm::Provider.new(:realm => 'test.com')
+    @server = Proxy::AdRealm::Provider.new(realm: 'test.com')
   end
 
   def test_create_host
     realm = 'TEST.COM'
     hostname = 'test.com'
     @server.expects(:create).with(realm, hostname, is_a(Hash))
-    post "/#{realm}", :hostname => 'test.com'
+    post "/#{realm}", hostname: 'test.com'
     assert last_response.ok?, "Last response was not ok: #{last_response.status} #{last_response.body}"
   end
 
@@ -42,7 +42,7 @@ class InternalApiTest < Test::Unit::TestCase
     realm = 'TEST.COM'
     hostname = 'test.com'
     @server.expects(:create).with(realm, hostname, has_entry('rebuild', 'true'))
-    post "/#{realm}", :hostname => 'test.com', :rebuild => true
+    post "/#{realm}", hostname: 'test.com', rebuild: true
     assert last_response.ok?, "Last response was not ok: #{last_response.status} #{last_response.body}"
   end
 
