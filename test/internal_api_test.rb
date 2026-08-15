@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
+ENV['APP_ENV'] = 'test'
+
 require 'test_helper'
-require 'rack/test'
 require 'realm/configuration_loader'
 require 'smart_proxy_realm_ad_plugin'
 require 'smart_proxy_realm_ad/provider'
-
-ENV['RACK_ENV'] = 'test'
 
 module Proxy::Realm
   module DependencyInjection
@@ -35,6 +34,7 @@ class InternalApiTest < Test::Unit::TestCase
     hostname = 'test.com'
     @server.expects(:create).with(realm, hostname, is_a(Hash))
     post "/#{realm}", :hostname => 'test.com'
+    puts last_response.status
     assert last_response.ok?, "Last response was not ok: #{last_response.status} #{last_response.body}"
   end
 
